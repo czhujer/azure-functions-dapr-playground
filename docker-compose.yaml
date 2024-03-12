@@ -1,4 +1,12 @@
 version: '3'
+
+networks:
+  hello-dapr: null
+
+configs:
+  collector_conf:
+    file: ./confs/collector.yml
+
 services:
   ############################
   # Dapr placement service
@@ -10,7 +18,7 @@ services:
       - "50006:50006"
     networks:
       - hello-dapr
-      
+
   ############################
   # Redis state store
   ############################
@@ -21,13 +29,38 @@ services:
     networks:
       - hello-dapr
 
-  zipkin:
-    image: openzipkin/zipkin
+  ############################
+  # tracing
+  ############################
+  # zipkin:
+  #   image: openzipkin/zipkin
+  #   ports:
+  #     - "9410:9410"
+  #     - "9411:9411"
+  #   networks:
+  #     - hello-dapr
+
+  otel-collector:
+    deploy:
+      resources:
+        limits:
+          memory: 125M
     ports:
+      - "4317"          # OTLP over gRPC receiver
+      - "4318"          # OTLP over HTTP receiver
+      - "1888:1888"     # pprof extension
+      - "13133:13133"   # health_check extension
       - "9410:9410"
       - "9411:9411"
+    # https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags
+    image: otel/opentelemetry-collector-contrib:0.88.0
+    configs:
+      - source: collector_conf
+        target: /conf/collector.yml
+    command: ["--config=/conf/collector.yml"]
     networks:
       - hello-dapr
-
-networks:
-  hello-dapr: null
+    # https://docs.docker.com/compose/environment-variables/set-environment-variables/#use-the-environment-attribute
+    environment:
+      # lightstep stuff
+      - INSTRUMENTATION_KEY=${INSTRUMENTATION_KEY}
