@@ -1,0 +1,1 @@
+create table greatings ( id int, timestamp text, message text );

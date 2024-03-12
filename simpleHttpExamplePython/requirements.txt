@@ -4,3 +4,4 @@
 
 azure-functions
 azure-functions-durable
+dapr==1.13.0

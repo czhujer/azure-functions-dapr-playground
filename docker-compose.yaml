@@ -3,6 +3,9 @@ version: '3'
 networks:
   hello-dapr: null
 
+volumes:
+  my-db:
+
 configs:
   collector_conf:
     file: ./confs/collector.yml
@@ -29,6 +32,31 @@ services:
     networks:
       - hello-dapr
 
+  #
+  #  mysql server bindings
+  # 
+  # https://hub.docker.com/_/mysql
+  db:
+    image: mysql:5.7
+    restart: always
+    platform: linux/amd64
+    environment:
+      MYSQL_DATABASE: 'dapr'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'rootpassword'
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
   ############################
   # tracing
   ############################
@@ -46,10 +74,10 @@ services:
         limits:
           memory: 125M
     ports:
-      - "4317"          # OTLP over gRPC receiver
-      - "4318"          # OTLP over HTTP receiver
-      - "1888:1888"     # pprof extension
-      - "13133:13133"   # health_check extension
+      # - "4317"          # OTLP over gRPC receiver
+      # - "4318"          # OTLP over HTTP receiver
+      # - "1888:1888"     # pprof extension
+      # - "13133:13133"   # health_check extension
       - "9410:9410"
       - "9411:9411"
     # https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags

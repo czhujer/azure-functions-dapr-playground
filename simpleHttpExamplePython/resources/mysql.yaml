@@ -1,0 +1,10 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: mysqldb
+spec:
+  type: bindings.mysql
+  version: v1
+  metadata:
+    - name: url
+      value: "root:rootpassword@tcp(localhost:3306)/dapr?allowNativePasswords=true"
