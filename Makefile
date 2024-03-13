@@ -29,3 +29,8 @@ she-test:
 	echo "test xxx2: "
 	curl http://localhost:3501/v1.0/invoke/function-app/method/api/HttpExample?name=xxx2 -i
 	echo ""
+
+.PHONY: she-test2
+she-test2:
+	dapr invoke --app-id function-app --method api/HttpCat
+	curl http://localhost:7071/api/HttpCat -i

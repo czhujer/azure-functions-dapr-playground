@@ -10,3 +10,4 @@
 - https://github.com/Azure-Samples/bindings-dapr-python-cron-postgres
 - https://github.com/dapr/python-sdk/blob/main/examples/error_handling/error_handling.py
 - https://github.com/dapr/python-sdk/blob/main/examples/w3c-tracing/invoke-caller.py
+- https://docs.dapr.io/developing-applications/building-blocks/service-invocation/howto-invoke-discover-services/#invoke-the-service
