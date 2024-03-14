@@ -11,3 +11,5 @@
 - https://github.com/dapr/python-sdk/blob/main/examples/error_handling/error_handling.py
 - https://github.com/dapr/python-sdk/blob/main/examples/w3c-tracing/invoke-caller.py
 - https://docs.dapr.io/developing-applications/building-blocks/service-invocation/howto-invoke-discover-services/#invoke-the-service
+- https://learn.microsoft.com/en-us/python/api/overview/azure/monitor-opentelemetry-readme?view=azure-python#monitoring-in-azure-functions
+- https://opentelemetry.io/docs/languages/python/propagation/#manual-w3c-trace-context-propagation
